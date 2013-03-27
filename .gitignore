@@ -1,2 +1,6 @@
 /html-template/
 /.project
+.actionScriptProperties
+.flexLibProperties
+.settings/
+bin/

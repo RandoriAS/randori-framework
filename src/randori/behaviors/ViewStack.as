@@ -74,7 +74,7 @@ package randori.behaviors {
 					
 					fragment.html2(content);
 					fragment.attr2( "data-url", url );
-					decoratedNode.append(div);
+					that.decoratedNode.append(div);
 					
 					var mediatorCapturer:MediatorCapturer = new MediatorCapturer();
 					that.domWalker.walkDomFragment(div, mediatorCapturer);

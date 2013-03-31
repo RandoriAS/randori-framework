@@ -46,12 +46,11 @@ package randori.service {
 
 		protected function sendRequest(verb:String, uri:String):Promise {
 			var promise:Promise = new Promise();
-			
-			xmlHttpRequest.open(verb, uri, true);
+			var request:XMLHttpRequest = xmlHttpRequest;
+            request.open(verb, uri, true);
 			//xmlHttpRequest.withCredentials = true;
-			xmlHttpRequest.onreadystatechange = function(evt:DomEvent):void {
-				var request:XMLHttpRequest = evt.target as XMLHttpRequest;
-				
+            request.onreadystatechange = function(evt:DomEvent):void {
+
 				if (request.readyState == XMLHttpRequest.DONE) {
 					if (request.status == 200) {
 						promise.resolve(request.responseText);

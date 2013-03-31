@@ -63,22 +63,26 @@ package randori.behaviors {
 			
 			if (templateBuilder.validTemplate) {
 				for (var i:int = 0; i < data.length; i++) {
-					var drp:DataRendererProvider = new DataRendererProvider( data[ i ] );
+					//var drp:DataRendererProvider = new DataRendererProvider( data[ i ] );
 					row = templateBuilder.renderTemplateClone(data[i]).children();
-					domWalker.walkDomFragment(row[0], drp);
+					//domWalker.walkDomFragment(row[0], drp);
 					row.addClass("randoriListItem");
 					div.append(row);
 				}
 			} else if (renderFunction != null) {
 				for (var j:int = 0; j < data.length; j++) {
 					row = renderFunction(j, data[j]);
-					domWalker.walkDomFragment(row[0], this);
+					//domWalker.walkDomFragment(row[0], this);
 					row.addClass("randoriListItem");
 					div.append(row);
 				}
 			}
-			
-			decoratedNode.empty();
+
+            //Okay, so by doing this I am cutting down the huge number of style calls
+            //however, I am remporarily losing the renderer behavior
+            domWalker.walkDomFragment(div[0], this);
+
+            decoratedNode.empty();
 			decoratedNode.append(div.children());
 		}
 

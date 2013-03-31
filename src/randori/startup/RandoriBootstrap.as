@@ -21,12 +21,18 @@ package randori.startup {
 	import guice.Injector;
 	
 	import randori.dom.DomWalker;
-	import randori.webkit.dom.Node;
+import randori.utilities.PolyFill;
+import randori.webkit.dom.Node;
 
 	public class RandoriBootstrap {
 		private var rootNode:Node;
 		
 		public function launch():void {
+
+            //We are going to do a few convenience things here
+            //first, build a default console object for IE
+            //PolyFill.fillConsoleForIE();
+
 			//Create the injector that will be used in the application
 			var guiceJs:GuiceJs = new GuiceJs();
 			var injector:Injector = guiceJs.createInjector(new RandoriModule());

@@ -18,7 +18,8 @@
  */
 package randori.i18n {
 
-	import randori.signal.SimpleSignal;
+import guice.loader.URLRewriterBase;
+import randori.signal.SimpleSignal;
 	import randori.webkit.dom.DomEvent;
 	import randori.webkit.page.Window;
 	import randori.webkit.xml.XMLHttpRequest;
@@ -28,8 +29,9 @@ package randori.i18n {
 		private var url:String;
 		
 		private var keyValuePairs:Object;
-		private var forceReload:Boolean;
 		private var fileLoaded:Boolean = false;
+        private var xmlHttpRequest:XMLHttpRequest;
+        private var urlRewriter:URLRewriterBase;
 		
 		override public function synchronousTranslate(domain:String, keys:Vector.<String>):Vector.<Translation> {
 			if (!fileLoaded) {
@@ -70,13 +72,9 @@ package randori.i18n {
 		}
 		
 		private function makeSynchronousRequest(url:String):void {
-			var request:XMLHttpRequest = new XMLHttpRequest();
-			
-			if (forceReload) {
-				//just bust the cache for now
-				url = url + "?rnd=" + Math.random();
-			}
-			
+			var request:XMLHttpRequest = xmlHttpRequest;
+
+            url = urlRewriter.rewriteURL( url );
 			request.open("GET", url, false);
 			request.send();
 			
@@ -89,13 +87,9 @@ package randori.i18n {
 		}
 
 		private function makeAsynchronousRequest( url:String, fileLoaded:Function ):void {
-			var request:XMLHttpRequest = new XMLHttpRequest();
-			
-			if (forceReload) {
-				//just bust the cache for now
-				url = url + "?rnd=" + Math.random();
-			}
-			
+			var request:XMLHttpRequest = xmlHttpRequest;
+
+            url = urlRewriter.rewriteURL( url );
 			request.open("GET", url, true);
 			request.onreadystatechange = function( evt:DomEvent ):void {
 				if ( request.readyState == 4 && request.status == 200 ) {
@@ -160,10 +154,11 @@ package randori.i18n {
 		}
 
 		
-		public function PropertyFileTranslator( translationResult:SimpleSignal, url:String, forceReload:Boolean = false) {
+		public function PropertyFileTranslator( translationResult:SimpleSignal, url:String, xmlHttpRequest:XMLHttpRequest, urlRewriter:URLRewriterBase ) {
 			super( translationResult );
 			this.url = url;
-			this.forceReload = forceReload;
+            this.xmlHttpRequest = xmlHttpRequest;
+            this.urlRewriter = urlRewriter;
 			keyValuePairs = new Object();
 		}
 	}

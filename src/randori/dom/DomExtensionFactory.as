@@ -61,7 +61,7 @@ package randori.dom {
 			var injector:ChildInjector = classBuilder.buildClass("guice.ChildInjector") as ChildInjector;
 
 			//This is a problem, refactor me
-			var guiceJs:GuiceJs = new GuiceJs();
+			var guiceJs:GuiceJs = new GuiceJs( null );
 			guiceJs.configureInjector(injector, module);
 
 			//Setup a new InjectionClassBuilder

@@ -18,16 +18,23 @@
  */
 package randori.styles {
 	import randori.data.HashMap;
-	import randori.webkit.dom.NodeList;
+import randori.jquery.JQuery;
+import randori.jquery.JQueryStatic;
+import randori.service.XMLHttpRequestProvider;
+import guice.loader.URLRewriterBase;
+import randori.webkit.dom.NodeList;
 	import randori.webkit.html.HTMLElement;
 	import randori.webkit.html.HTMLLinkElement;
-	import randori.webkit.page.Window;
+import randori.webkit.page.Console;
+import randori.webkit.page.Window;
 	import randori.webkit.xml.XMLHttpRequest;
 
 	public class StyleExtensionManager {
 		
 		private var map:StyleExtensionMap;
-		
+        private var serviceFactory:XMLHttpRequestProvider;
+        private var urlRewriter:URLRewriterBase;
+/*
 		private function findChildNodesForSelector( elements:Vector.<HTMLElement>, selectorArray:Array):Vector.<HTMLElement> {
 			var selector:String = selectorArray.shift();
 
@@ -74,7 +81,7 @@ package randori.styles {
 			
 			return newElements;
 		}
-		
+
 		private function findChildNodesForCompoundSelector( element:HTMLElement, selector:String ):Vector.<HTMLElement> {
 			//lets start with simple ones
 			var selectors:Array = selector.split( " " );
@@ -85,15 +92,16 @@ package randori.styles {
 			
 			return elements;
 		}
-
+*/
 		public function getExtensionsForFragment(element:HTMLElement):HashMap {
 			var hashmap:HashMap = new HashMap();
 			//We need to loop over all of the relevant entries in the map that define some behavior
 			var allEntries:Vector.<String> = map.getAllRandoriSelectorEntries();
 			
 			for ( var i:int=0; i<allEntries.length; i++) {
-				var implementingNodes:Vector.<HTMLElement> = findChildNodesForCompoundSelector(element, allEntries[i]);
-				
+
+                var implementingNodes:JQuery = JQueryStatic.J( allEntries[i], element );
+                //TODO need to work on getting the number of calls to this method down
 				var extensionEntry:StyleExtensionMapEntry;
 
 				//For each of those entries, we need to see if we have any elements in this DOM fragment that implement any of those classes
@@ -135,10 +143,12 @@ package randori.styles {
 		}
 		
 		private function resolveSheet(url:String):void {
-			var sheetRequest:XMLHttpRequest = new XMLHttpRequest();
+			var sheetRequest:XMLHttpRequest = serviceFactory.get();
 			var behaviorSheet:String = "";
 			var prefix:String;
-			
+
+            url = urlRewriter.rewriteURL( url );
+
 			sheetRequest.open("GET", url, false);
 			sheetRequest.send();
 			
@@ -156,7 +166,7 @@ package randori.styles {
 			var classSelector:String;
 			var randoriVendorItemsResult:Array;
 			var randoriVendorItemInfoResult:Array;
-			var CSSClassSelectorNameResult:Array;
+			var cssClassSelectorNameResult:Array;
 			/*
 			* This regular expression then grabs all of the class selectors
 			* \.[\w\W]*?\}
@@ -167,10 +177,11 @@ package randori.styles {
 			* \s?-randori-([\w\W]+?)\s?:\s?["']?([\w\W]+?)["']?;
 			* 
 			*/
-			
+
+            var commentsSelector:RegExp = new RegExp("/\\*(.|[\\r\\n])*?\\*/", "gm");
 			var allClassSelectors:RegExp = new RegExp("^[\\w\\W]*?\\}", "gm");
 			
-			const RANDORI_VENDOR_ITEM_EXPRESSION:String = "\\s?-randori-([\\w\\W]+?)\\s?:\\s?[\"\']?([\\w\\W]+?)[\"\']?;";
+			var RANDORI_VENDOR_ITEM_EXPRESSION:String = "\\s?-randori-([\\w\\W]+?)\\s?:\\s?[\"\']?([\\w\\W]+?)[\"\']?;";
 			//These two are the same save for the global flag. The global flag seems to disable all capturing groups immediately
 			var anyVendorItems:RegExp = new RegExp(RANDORI_VENDOR_ITEM_EXPRESSION, "g");
 
@@ -178,11 +189,12 @@ package randori.styles {
 			//The global flag seems to disable all capturing groups immediately
 			var eachVendorItem:RegExp = new RegExp(RANDORI_VENDOR_ITEM_EXPRESSION);
 
-			var classSelectorName:RegExp = new RegExp("^(.+?)\\s+?{", "m");
-			var CSSClassSelectorName:String;
+			var classSelectorName:RegExp = new RegExp("^(.+?)\\s*?{", "m");
+			var cssClassSelectorName:String;
 			var randoriVendorItemStr:String;
-			
-			var selectors:Array = sheet.match(allClassSelectors);
+
+            var sheetMinusComments:String = sheet.replace( commentsSelector, "\n" );
+			var selectors:Array = sheetMinusComments.match(allClassSelectors);
 
 			if (selectors != null ) {
 				for (var i:int = 0; i < selectors.length; i++) {
@@ -191,15 +203,15 @@ package randori.styles {
 					randoriVendorItemsResult = classSelector.match(anyVendorItems);
 					if (randoriVendorItemsResult != null) {
 						
-						CSSClassSelectorNameResult = classSelector.match(classSelectorName);
-						CSSClassSelectorName = CSSClassSelectorNameResult[1];
+						cssClassSelectorNameResult = classSelector.match(classSelectorName);
+						cssClassSelectorName = cssClassSelectorNameResult[1];
 						
 						for (var j:int = 0; j < randoriVendorItemsResult.length; j++) {
 							randoriVendorItemStr = randoriVendorItemsResult[j];
 							randoriVendorItemInfoResult = randoriVendorItemStr.match(eachVendorItem);
-							map.addCSSEntry(CSSClassSelectorName, randoriVendorItemInfoResult[1], randoriVendorItemInfoResult[2]);
+							map.addCSSEntry(cssClassSelectorName, randoriVendorItemInfoResult[1], randoriVendorItemInfoResult[2]);
 							if (Window.console != null) {
-								Window.console.log(CSSClassSelectorName + " specifies a " + randoriVendorItemInfoResult[1] + " implemented by class " + randoriVendorItemInfoResult[2]);
+								//Window.console.log(cssClassSelectorName + " specifies a " + randoriVendorItemInfoResult[1] + " implemented by class " + randoriVendorItemInfoResult[2]);
 							}
 						}
 					}
@@ -210,12 +222,13 @@ package randori.styles {
 
 
 		public function parseAndReleaseLinkElement(element:HTMLLinkElement):void {
-			// TODO Auto Generated method stub
 			resolveSheet(resetLinkAndReturnURL(element));
 		}
 
-		public function StyleExtensionManager( map:StyleExtensionMap ) {
+		public function StyleExtensionManager( map:StyleExtensionMap, serviceFactory:XMLHttpRequestProvider, urlRewriter:URLRewriterBase ) {
 			this.map = map;
+            this.serviceFactory = serviceFactory;
+            this.urlRewriter = urlRewriter;
 		}
 
 	}

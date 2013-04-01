@@ -19,10 +19,13 @@
 package randori.content {
 	import randori.async.Promise;
 	import randori.service.AbstractService;
-	import randori.webkit.xml.XMLHttpRequest;
+    import guice.loader.URLRewriterBase;
+    import randori.webkit.xml.XMLHttpRequest;
 
 	public class ContentLoader extends AbstractService {
-		
+
+        private var urlRewriter:URLRewriterBase;
+
 		private var contentCache:ContentCache;
 		
 		public function synchronousFragmentLoad(fragmentURL:String):String {
@@ -32,7 +35,9 @@ package randori.content {
 			if (cachedContent != null) {
 				return cachedContent;
 			}
-			
+
+            fragmentURL = urlRewriter.rewriteURL( fragmentURL );
+
 			//Else load it now
 			xmlHttpRequest.open( "GET", fragmentURL, false );
 			xmlHttpRequest.send();
@@ -46,14 +51,18 @@ package randori.content {
 		}
 
 		public function asynchronousLoad(fragmentURL:String):Promise {
-			return sendRequest( "GET", fragmentURL ).then( 
+
+            fragmentURL = urlRewriter.rewriteURL( fragmentURL );
+
+			return sendRequest( "GET", fragmentURL ).then(
 				function( value:Object ):Object {
 					return value;
 				} );
 		}
 		
-		public function ContentLoader( contentCache:ContentCache, xmlHttpRequest:XMLHttpRequest ) {
+		public function ContentLoader( contentCache:ContentCache, xmlHttpRequest:XMLHttpRequest, urlRewriter:URLRewriterBase ) {
 			this.contentCache = contentCache;
+            this.urlRewriter = urlRewriter;
 			super( xmlHttpRequest );
 		}
 	}

@@ -19,13 +19,18 @@
 package randori.service {
 	
 	import randori.async.Promise;
-	import randori.webkit.dom.DomEvent;
+import randori.service.url.URLRewriterBase;
+import randori.webkit.dom.DomEvent;
 	import randori.webkit.xml.XMLHttpRequest;
 
 	public class AbstractService {
-		protected var xmlHttpRequest:XMLHttpRequest;
-		
-		protected function createUri( protocol:String, host:String, port:String, path:String ):String {
+
+        [Inject]
+        public var urlRewriter:URLRewriterBase;
+
+        protected var xmlHttpRequest:XMLHttpRequest;
+
+        protected function createUri( protocol:String, host:String, port:String, path:String ):String {
 			var uri:String = "";
 			
 			if ( ( protocol != null ) && ( host != null ) ) {
@@ -47,6 +52,8 @@ package randori.service {
 		protected function sendRequest(verb:String, uri:String):Promise {
 			var promise:Promise = new Promise();
 			var request:XMLHttpRequest = xmlHttpRequest;
+
+            uri = urlRewriter.rewriteURL( uri );
             request.open(verb, uri, true);
 			//xmlHttpRequest.withCredentials = true;
             request.onreadystatechange = function(evt:DomEvent):void {

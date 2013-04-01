@@ -20,6 +20,8 @@ package randori.styles {
 	import randori.data.HashMap;
 import randori.jquery.JQuery;
 import randori.jquery.JQueryStatic;
+import randori.service.XMLHttpRequestProvider;
+import randori.service.url.URLRewriterBase;
 import randori.webkit.dom.NodeList;
 	import randori.webkit.html.HTMLElement;
 	import randori.webkit.html.HTMLLinkElement;
@@ -30,6 +32,8 @@ import randori.webkit.page.Window;
 	public class StyleExtensionManager {
 		
 		private var map:StyleExtensionMap;
+        private var serviceFactory:XMLHttpRequestProvider;
+        private var urlRewriter:URLRewriterBase;
 /*
 		private function findChildNodesForSelector( elements:Vector.<HTMLElement>, selectorArray:Array):Vector.<HTMLElement> {
 			var selector:String = selectorArray.shift();
@@ -139,10 +143,12 @@ import randori.webkit.page.Window;
 		}
 		
 		private function resolveSheet(url:String):void {
-			var sheetRequest:XMLHttpRequest = new XMLHttpRequest();
+			var sheetRequest:XMLHttpRequest = serviceFactory.get();
 			var behaviorSheet:String = "";
 			var prefix:String;
-			
+
+            url = urlRewriter.rewriteURL( url );
+
 			sheetRequest.open("GET", url, false);
 			sheetRequest.send();
 			
@@ -216,12 +222,13 @@ import randori.webkit.page.Window;
 
 
 		public function parseAndReleaseLinkElement(element:HTMLLinkElement):void {
-			// TODO Auto Generated method stub
 			resolveSheet(resetLinkAndReturnURL(element));
 		}
 
-		public function StyleExtensionManager( map:StyleExtensionMap ) {
+		public function StyleExtensionManager( map:StyleExtensionMap, serviceFactory:XMLHttpRequestProvider, urlRewriter:URLRewriterBase ) {
 			this.map = map;
+            this.serviceFactory = serviceFactory;
+            this.urlRewriter = urlRewriter;
 		}
 
 	}

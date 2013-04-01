@@ -28,9 +28,11 @@ package randori.startup {
 	
 	import randori.i18n.AbstractTranslator;
 	import randori.i18n.NoOpTranslator;
-	import randori.styles.StyleExtensionMap;
+import randori.service.url.URLRewriterBase;
+import randori.styles.StyleExtensionMap;
 
 	public class RandoriModule extends GuiceModule {
+        private var urlRewriter:URLRewriterBase;
 		
 		override public function configure(binder:Binder):void {
 			//make the StyleExtensionMap a Singleton
@@ -38,9 +40,12 @@ package randori.startup {
 			
 			//Setup a NoOp translator as the default
 			binder.bind( AbstractTranslator ).to( NoOpTranslator );
+
+            binder.bind( URLRewriterBase).toInstance( urlRewriter );
 		}
 
-		public function RandoriModule() {
+		public function RandoriModule( urlRewriter:URLRewriterBase ) {
+            this.urlRewriter = urlRewriter;
 		}
 	}
 }

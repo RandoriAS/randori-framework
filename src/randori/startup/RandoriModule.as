@@ -28,8 +28,8 @@ package randori.startup {
 	
 	import randori.i18n.AbstractTranslator;
 	import randori.i18n.NoOpTranslator;
-import randori.service.url.URLRewriterBase;
-import randori.styles.StyleExtensionMap;
+    import guice.loader.URLRewriterBase;
+    import randori.styles.StyleExtensionMap;
 
 	public class RandoriModule extends GuiceModule {
         private var urlRewriter:URLRewriterBase;

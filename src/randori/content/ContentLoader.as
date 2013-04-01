@@ -19,9 +19,8 @@
 package randori.content {
 	import randori.async.Promise;
 	import randori.service.AbstractService;
-import randori.service.url.URLCacheBuster;
-import randori.service.url.URLRewriterBase;
-import randori.webkit.xml.XMLHttpRequest;
+    import guice.loader.URLRewriterBase;
+    import randori.webkit.xml.XMLHttpRequest;
 
 	public class ContentLoader extends AbstractService {
 

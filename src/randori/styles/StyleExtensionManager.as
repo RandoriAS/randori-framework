@@ -21,7 +21,7 @@ package randori.styles {
 import randori.jquery.JQuery;
 import randori.jquery.JQueryStatic;
 import randori.service.XMLHttpRequestProvider;
-import randori.service.url.URLRewriterBase;
+import guice.loader.URLRewriterBase;
 import randori.webkit.dom.NodeList;
 	import randori.webkit.html.HTMLElement;
 	import randori.webkit.html.HTMLLinkElement;

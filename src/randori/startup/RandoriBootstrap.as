@@ -23,7 +23,7 @@ import guice.loader.SynchronousClassLoader;
 
 import randori.dom.DomWalker;
 import randori.service.url.URLCacheBuster;
-import randori.service.url.URLRewriterBase;
+import guice.loader.URLRewriterBase;
 import randori.utilities.PolyFill;
 import randori.webkit.dom.Node;
 import randori.webkit.xml.XMLHttpRequest;

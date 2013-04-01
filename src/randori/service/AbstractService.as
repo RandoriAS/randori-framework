@@ -19,7 +19,7 @@
 package randori.service {
 	
 	import randori.async.Promise;
-import randori.service.url.URLRewriterBase;
+import guice.loader.URLRewriterBase;
 import randori.webkit.dom.DomEvent;
 	import randori.webkit.xml.XMLHttpRequest;
 

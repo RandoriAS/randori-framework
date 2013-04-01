@@ -18,7 +18,7 @@
  */
 package randori.i18n {
 
-import randori.service.url.URLRewriterBase;
+import guice.loader.URLRewriterBase;
 import randori.signal.SimpleSignal;
 	import randori.webkit.dom.DomEvent;
 	import randori.webkit.page.Window;

@@ -17,8 +17,9 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.service.url {
+import guice.loader.URLRewriterBase;
 
-	public class URLCacheBuster extends URLRewriterBase {
+public class URLCacheBuster extends URLRewriterBase {
 		override public function rewriteURL( url:String ):String {
 
             if ( url.indexOf("?") != -1 ) {

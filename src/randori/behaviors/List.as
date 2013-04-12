@@ -26,7 +26,7 @@ package randori.behaviors {
 	public class List extends SimpleList {
 		
 		protected var _selectedItem:Object;
-		protected var _selectedIndex:int;
+		protected var _selectedIndex:int = -1;
 		
 		public var listChanged:SimpleSignal;
 
@@ -73,7 +73,6 @@ package randori.behaviors {
 		
 		override public function renderList():void {
 			super.renderList();
-			selectedIndex = 0;
 		}
 
 		protected function onItemClick(e:DomEvent):void {

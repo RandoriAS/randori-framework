@@ -82,9 +82,10 @@ package randori.behaviors {
 					that.viewFragmentStack.push(fragment);
 					var mediator:AbstractMediator = mediatorCapturer.mediator;
 					that.mediators[ url ] = mediator;
-					
+
 					that.showView(that._currentView, fragment);
-					
+                    that._currentView = fragment;
+
 					return mediator;
 				} 
 			);

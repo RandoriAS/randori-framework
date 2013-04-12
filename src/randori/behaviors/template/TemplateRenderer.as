@@ -56,7 +56,7 @@ package randori.behaviors.template {
 		}
 		
 		override protected function onDeregister():void {
-			this.data = null;
+			_data = null;
 			decoratedNode.empty();
 		}
 		

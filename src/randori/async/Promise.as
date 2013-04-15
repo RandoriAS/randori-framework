@@ -177,9 +177,62 @@ package randori.async {
 				}
 			}
 		}
-		
-		
-		public function Promise() {
+
+        private function createItemFulfilledHandler( array:Array, index:int ):Function {
+            var that:Promise = this;
+            return function(innerResponse:*):void  {
+                array[ index ] = innerResponse;
+
+                var completed:Boolean = true;
+                for ( var j:int = 0; j<array.length; j++ ) {
+                    if ( array[j] == -1 ) {
+                        completed = false;
+                        break;
+                    }
+                }
+
+                if ( completed ) {
+                    that.fullfill( array );
+                }
+            }
+        }
+
+        public function any( ...args ):Promise {
+            var that:Promise = this;
+
+            for ( var i:int = 0; i<args.length; i++ ) {
+                var existingPromise:Promise = args[i];
+                existingPromise.then(
+                        function(innerResponse:*):void  {
+                            that.fullfill(innerResponse);
+                        },
+                        function(innerReason:Object):void {
+                            that.internalReject(innerReason);
+                        }
+                );
+            }
+            return this;
+        }
+
+        public function all( ...args ):Promise {
+            var fulfilledArray:Array = new Array();
+            var that:Promise = this;
+
+            for ( var i:int = 0; i<args.length; i++ ) {
+                fulfilledArray[i] = -1;
+
+                var existingPromise:Promise = args[i];
+                existingPromise.then(
+                    createItemFulfilledHandler( fulfilledArray, i ),
+                    function(innerReason:Object):void {
+                        that.internalReject(innerReason);
+                    }
+                );
+            }
+            return this;
+        }
+
+        public function Promise() {
 			this.thenContracts = new Array();
 		}
 	}

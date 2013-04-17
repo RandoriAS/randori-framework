@@ -120,22 +120,57 @@ public class ViewStack extends AbstractBehavior {
 		}
 	}
 
+	public function empty():void {
+		//Pop all views
+		while ( viewFragmentStack.length > 0 ) {
+			var oldView:JQuery = viewFragmentStack.pop();
+			if (oldView != null ) {
+				oldView.remove();
+				var viewStackID:String = oldView.data3( "viewstackid" ) as String;
+				var mediator:AbstractMediator = mediators[ viewStackID ];
+
+				if (mediator != null ) {
+					mediator.removeAndCleanup();
+					delete mediators[ viewStackID ];
+				}
+			}
+		}
+
+		_currentView = null;
+	}
+
 	public function selectView( url:String ):void {
 
-		if (currentViewUrl != url) {
+		var fragment:JQuery;
 
-			var fragment:JQuery = decoratedNode.children().filter("[data-url=" + url + "]");
-
-			if (fragment == null) {
-				throw new Error("Unknown View");
+		if ( currentViewUrl != url ) {
+			var foundIndex:int = -1;
+			for ( var i:int = 0; i<viewFragmentStack.length; i++ ) {
+				fragment = viewFragmentStack[i];
+				if ( fragment.data3( "url" ) == url ) {
+					//found the one
+					foundIndex = i;
+					break;
+				}
 			}
 
-			fragment.detach();
-			decoratedNode.append( fragment );
+			if ( foundIndex > -1 ) {
+				//remove it from the viewFragmentStack
+				fragment = ( viewFragmentStack.splice( foundIndex, 1 ) )[0];
 
-			showView( _currentView, fragment );
+				//move it to the top of the dom children
+				fragment.detach();
+				decoratedNode.append( fragment );
 
-			_currentView = fragment;
+				//move it to the top of the vector
+				viewFragmentStack.push( fragment );
+
+				showView( _currentView, fragment );
+
+				_currentView = fragment;
+			} else {
+				throw new Error("Unknown View");
+			}
 		}
 	}
 

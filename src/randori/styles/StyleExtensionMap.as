@@ -42,7 +42,7 @@ package randori.styles {
 		public function getAllRandoriSelectorEntries():Vector.<String> {
 			var allEntries:Vector.<String> = new Vector.<String>();
 			
-			for each (var cssSelector:String in hashMap) {
+			for (var cssSelector:String in hashMap) {
 				allEntries.push(cssSelector);
 			}
 			

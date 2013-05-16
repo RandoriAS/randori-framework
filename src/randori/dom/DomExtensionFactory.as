@@ -17,19 +17,19 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.dom {
-	import guice.ChildInjector;
-	import guice.GuiceJs;
-	import guice.GuiceModule;
-	import guice.InjectionClassBuilder;
-	import guice.reflection.TypeDefinition;
-	import guice.resolver.ClassResolver;
+import guice.ChildInjector;
+import guice.GuiceJs;
+import guice.GuiceModule;
+import guice.InjectionClassBuilder;
+import guice.reflection.TypeDefinition;
+import guice.resolver.ClassResolver;
 
-	import randori.behaviors.AbstractBehavior;
-	import randori.content.ContentLoader;
-	import randori.jquery.JQueryStatic;
-	import randori.webkit.html.HTMLElement;
+import randori.behaviors.AbstractBehavior;
+import randori.content.ContentLoader;
+import randori.jquery.JQueryStatic;
+import randori.webkit.html.HTMLElement;
 
-	public class DomExtensionFactory {
+public class DomExtensionFactory {
 		private var contentLoader:ContentLoader;
 		private var classResolver:ClassResolver;
 		private var externalBehaviorFactory:ExternalBehaviorFactory;

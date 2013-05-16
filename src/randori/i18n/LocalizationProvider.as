@@ -17,10 +17,10 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.i18n {
-	import randori.timer.Timer;
-	import randori.webkit.dom.Node;
+import randori.timer.Timer;
+import randori.webkit.dom.Node;
 
-	public class LocalizationProvider {
+public class LocalizationProvider {
 		
 		private var internationalKey:RegExp = new RegExp("\\[(labels|messages|reference)\\.\\w+\\]", "g");
 		
@@ -82,7 +82,7 @@ package randori.i18n {
 			var key:String;
 			
 			//The translation translator works on domains, so we need to break up the available items we have and make appropriate requests to the translator
-			for each (var expression:String in pendingTranslations) {
+			for (var expression:String in pendingTranslations) {
 				result = expression.match(keyValuePair);
 				domain = result[1];
 				key = result[ 2 ];
@@ -94,7 +94,7 @@ package randori.i18n {
 				domainLabels[domain].push( key );
 			}
 			
-			for each ( var domainEntry:String in domainLabels ) {
+			for ( var domainEntry:String in domainLabels ) {
 				translator.translate(domainEntry, domainLabels[domainEntry]);
 			}
 		}

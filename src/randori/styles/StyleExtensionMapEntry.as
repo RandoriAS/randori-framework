@@ -42,7 +42,7 @@ package randori.styles {
 		}
 		
 		public function mergeTo( entry:StyleExtensionMapEntry ):void {
-			for each (var extensionType:String in hashMap) {
+			for (var extensionType:String in hashMap) {
 				entry.addExtensionType(extensionType, hashMap[extensionType]);
 			}
 		}

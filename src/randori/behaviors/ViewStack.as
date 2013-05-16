@@ -43,12 +43,7 @@ public class ViewStack extends AbstractBehavior {
 	}
 
 	public function hasView( url:String ):Boolean {
-		var fragment:JQuery = null;
-		var allFragments:JQuery = decoratedNode.children();
-
-		if ( allFragments.length > 0 ) {
-			fragment = allFragments.find("[data-url='" + url + "']");
-		}
+		var fragment:JQuery = decoratedNode.find("[data-url='" + url + "']");
 
 		return ((fragment != null) && fragment.length>0);
 	}

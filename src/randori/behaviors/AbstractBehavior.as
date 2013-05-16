@@ -17,15 +17,15 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.behaviors {
-	import guice.reflection.InjectionPoint;
-	import guice.reflection.TypeDefinition;
+import guice.reflection.InjectionPoint;
+import guice.reflection.TypeDefinition;
 
-	import randori.jquery.JQuery;
-	import randori.jquery.JQueryStatic;
-	import randori.webkit.html.HTMLElement;
-	import randori.webkit.page.Window;
+import randori.jquery.JQuery;
+import randori.jquery.JQueryStatic;
+import randori.webkit.html.HTMLElement;
+import randori.webkit.page.Window;
 
-	public class AbstractBehavior {
+public class AbstractBehavior {
 		protected var viewElementIDMap:Object;
 		protected var viableInjectionPoints:Object;
 		protected var decoratedElement:HTMLElement;
@@ -83,7 +83,7 @@ package randori.behaviors {
 		}
 
 		public function verifyAndRegister():void {
-			for each (var id:String in viableInjectionPoints) {
+			for (var id:String in viableInjectionPoints) {
 				if (viableInjectionPoints[id] == "req") {
 					var instance:* = this;
 					var typeDefinition:TypeDefinition = new TypeDefinition(instance.constructor);

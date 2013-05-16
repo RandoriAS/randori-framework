@@ -26,7 +26,7 @@ package randori.content {
 
 		public function getCachedFileList():Array {
 			var contentList:Array = new Array();
-			for each (var key:String in ContentCache.htmlMergedFiles) {
+			for (var key:String in ContentCache.htmlMergedFiles) {
 				contentList.push(key);
 			}
 			

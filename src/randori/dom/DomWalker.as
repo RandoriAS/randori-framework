@@ -17,18 +17,18 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.dom {
-	import guice.InjectionClassBuilder;
+import guice.InjectionClassBuilder;
 
-	import randori.behaviors.AbstractBehavior;
-	import randori.data.HashMap;
-	import randori.i18n.LocalizationProvider;
-	import randori.jquery.JQueryStatic;
-	import randori.styles.StyleExtensionManager;
-	import randori.webkit.dom.Node;
-	import randori.webkit.html.HTMLElement;
-	import randori.webkit.html.HTMLLinkElement;
+import randori.behaviors.AbstractBehavior;
+import randori.data.HashMap;
+import randori.i18n.LocalizationProvider;
+import randori.jquery.JQueryStatic;
+import randori.styles.StyleExtensionManager;
+import randori.webkit.dom.Node;
+import randori.webkit.html.HTMLElement;
+import randori.webkit.html.HTMLLinkElement;
 
-	public class DomWalker {
+public class DomWalker {
 		private var domExtensionFactory:DomExtensionFactory;
 		private var classBuilder:InjectionClassBuilder;
 		private var elementDescriptorFactory:ElementDescriptorFactory;

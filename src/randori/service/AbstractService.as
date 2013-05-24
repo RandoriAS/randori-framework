@@ -48,6 +48,10 @@ import randori.webkit.xml.XMLHttpRequest;
             return uri;
         }
 
+        protected function modifyHeaders( request:XMLHttpRequest ):void {
+
+        }
+
         private function attachHeaders(request:XMLHttpRequest, httpRequestHeaders:Array):void {
             httpRequestHeaders.forEach(function (requestHeader:HttpRequestHeader):void {
                 request.setRequestHeader(requestHeader.header, requestHeader.value);
@@ -66,11 +70,14 @@ import randori.webkit.xml.XMLHttpRequest;
                 attachHeaders(request, httpRequestHeaders);
             }
 
-            request.onloadend = function (evt:XMLHttpRequestProgressEvent):void {
-                promise.resolve(request.responseText);
-            };
-            request.onerror = function (evt:Event):void {
-                promise.reject(request.statusText);
+            request.onreadystatechange = function(evt:DomEvent):void {
+                if (request.readyState == XMLHttpRequest.DONE) {
+                    if (request.status >= 200 && request.status <=299) {
+                        promise.resolve(request.responseText);
+                    } else {
+                        promise.reject(request.statusText);
+                    }
+                }
             };
 
             request.send(data);

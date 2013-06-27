@@ -37,7 +37,7 @@ public class DomExtensionFactory {
 		public function buildBehavior(classBuilder:InjectionClassBuilder, element:HTMLElement, behaviorClassName:String):AbstractBehavior {
 			var behavior:AbstractBehavior = null;
 
-			var resolution:TypeDefinition = classResolver.resolveClassName(behaviorClassName);
+			var resolution:TypeDefinition = classResolver.resolveClassName(behaviorClassName, new Object());
 
 			if (resolution.builtIn) {
 				/** If we have a type which was not created via Randori, we send it out to get created. In this way

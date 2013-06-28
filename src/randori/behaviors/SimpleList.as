@@ -17,13 +17,12 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.behaviors {
-	import randori.behaviors.list.DataRendererProvider;
-	import randori.dom.DomWalker;
-	import randori.jquery.JQuery;
-	import randori.jquery.JQueryStatic;
-	import randori.template.TemplateBuilder;
+import randori.dom.DomWalker;
+import randori.jquery.JQuery;
+import randori.jquery.JQueryStatic;
+import randori.template.TemplateBuilder;
 
-	public class SimpleList extends AbstractBehavior {
+public class SimpleList extends AbstractBehavior {
 		private var domWalker:DomWalker;
 		
 		[View(required = "false")]

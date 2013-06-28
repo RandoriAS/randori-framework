@@ -17,12 +17,12 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.behaviors.template {
-	import randori.behaviors.AbstractBehavior;
-	import randori.dom.DomWalker;
-	import randori.jquery.JQuery;
-	import randori.template.TemplateBuilder;
-	
-	public class TemplateRenderer extends AbstractBehavior {
+import randori.behaviors.AbstractBehavior;
+import randori.dom.DomWalker;
+import randori.jquery.JQuery;
+import randori.template.TemplateBuilder;
+
+public class TemplateRenderer extends AbstractBehavior {
 		private var domWalker:DomWalker;
 		private var templateBuilder:TemplateBuilder;
 		

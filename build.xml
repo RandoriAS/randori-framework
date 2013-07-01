@@ -31,10 +31,6 @@
 			 <arg value="-bundle-libraries=randori-framework"/>
 			 <arg value="-output=${build.output}randori-framework.rbl"/>
 			 <arg value="-bundle-source-path=randori-framework,${basedir_clean}\src"/>
-			 <arg value="-bundle-library-path=randori-framework,${build.output}builtin.swc"/>
-			 <arg value="-bundle-library-path=randori-framework,${build.output}JQuery.swc"/>
-			 <arg value="-bundle-library-path=randori-framework,${build.output}HTMLCoreLib.swc"/>
-			 <arg value="-bundle-library-path=randori-framework,${build.output}randori-guice.rbl"/>
 			 <classpath>
 			   <pathelement location="${randori.compiler.path}randori.jar"/>
 			 </classpath>

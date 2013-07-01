@@ -24,10 +24,10 @@
 	<target name="main">
 		<java classname="randori.compiler.clients.Randori"
 			failonerror="true">
-			 <arg value="-external-library-path=${build.output}builtin.swc"/>
-			 <arg value="-external-library-path=${build.output}JQuery.swc"/>
-			 <arg value="-external-library-path=${build.output}HTMLCoreLib.swc"/>
-			 <arg value="-external-bundle-path=${build.output}randori-guice.rbl"/>
+			 <arg value="-library-path=${build.output}builtin.swc"/>
+			 <arg value="-library-path=${build.output}JQuery.swc"/>
+			 <arg value="-library-path=${build.output}HTMLCoreLib.swc"/>
+			 <arg value="-bundle-path=${build.output}randori-guice.rbl"/>
 			 <arg value="-bundle-libraries=randori-framework"/>
 			 <arg value="-output=${build.output}randori-framework.rbl"/>
 			 <arg value="-bundle-source-path=randori-framework,${basedir_clean}\src"/>

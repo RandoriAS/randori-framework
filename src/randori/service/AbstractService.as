@@ -17,16 +17,15 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.service {
-	
-	import randori.async.Promise;
-    import randori.jquery.Event;
-    import guice.loader.URLRewriterBase;
 
+import guice.loader.URLRewriterBase;
+
+import randori.async.Promise;
 import randori.service.httpRequest.HttpRequestHeader;
+import randori.webkit.dom.DomEvent;
 import randori.webkit.xml.XMLHttpRequest;
-    import randori.webkit.xml.XMLHttpRequestProgressEvent;
 
-	public class AbstractService {
+public class AbstractService {
 
         [Inject]
         public var urlRewriter:URLRewriterBase;

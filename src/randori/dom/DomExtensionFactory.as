@@ -58,7 +58,7 @@ public class DomExtensionFactory {
 		}
 
 		public function buildChildClassBuilder(classBuilder:InjectionClassBuilder, element:HTMLElement, contextClassName:String):InjectionClassBuilder {
-			var module:GuiceModule = classBuilder.buildClass(contextClassName) as GuiceModule;
+			var module:GuiceModule = classBuilder.buildContext(contextClassName) as GuiceModule;
 			var injector:ChildInjector = classBuilder.buildClass("guice.ChildInjector") as ChildInjector;
 
 			//This is a problem, refactor me

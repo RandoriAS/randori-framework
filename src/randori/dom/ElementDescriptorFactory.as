@@ -17,12 +17,12 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.dom {
-	import randori.data.HashMap;
-	import randori.styles.StyleExtensionManager;
-	import randori.styles.StyleExtensionMapEntry;
-	import randori.webkit.html.HTMLElement;
+import randori.data.HashMap;
+import randori.styles.StyleExtensionManager;
+import randori.styles.StyleExtensionMapEntry;
+import randori.webkit.html.HTMLElement;
 
-	public class ElementDescriptorFactory {
+public class ElementDescriptorFactory {
 		private var styleExtensionManager:StyleExtensionManager;
 
 		public function describeElement(element:HTMLElement, possibleExtensions:HashMap ):ElementDescriptor {

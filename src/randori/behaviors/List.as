@@ -17,13 +17,13 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.behaviors {
-	import randori.dom.DomWalker;
-	import randori.jquery.JQuery;
-	import randori.jquery.JQueryStatic;
-	import randori.signal.SimpleSignal;
-	import randori.webkit.dom.DomEvent;
+import randori.dom.DomWalker;
+import randori.jquery.JQuery;
+import randori.jquery.JQueryStatic;
+import randori.signal.SimpleSignal;
+import randori.webkit.dom.DomEvent;
 
-	public class List extends SimpleList {
+public class List extends SimpleList {
 		
 		protected var _selectedItem:Object;
 		protected var _selectedIndex:int = -1;

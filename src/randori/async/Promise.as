@@ -17,9 +17,9 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.async {
-	import randori.webkit.page.Window;
+import randori.webkit.page.Window;
 
-	public class Promise {
+public class Promise {
 		public static const PENDING:int = 0;
 		public static const REJECTED:int = 1;
 		public static const FULLFILLED:int = 2;
@@ -237,6 +237,7 @@ package randori.async {
 		}
 	}
 }
+
 import randori.async.Promise;
 
 [JavaScript(export="false",name="Object",mode="json")]

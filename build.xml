@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<!--
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+<project name="randori-compiler" default="main" basedir=".">
+
+	<pathconvert property="basedir_clean" dirsep="/">
+		<path location="${basedir}" />
+	</pathconvert>
+
+	<property name="build.output" value="D:/randori-sdk-swcs/" />
+	<property name="rbl.output" value="${build.output}" />
+	<property name="build.filename" value="randori-framework" />
+	<property name="randori.compiler.path" value="D:/randori-compiler/" />
+	
+	<target name="main">
+		<java classname="randori.compiler.clients.Randori"
+			failonerror="true">
+			 <arg value="-library-path=${build.output}builtin.swc"/>
+			 <arg value="-library-path=${build.output}JQuery.swc"/>
+			 <arg value="-library-path=${build.output}HTMLCoreLib.swc"/>
+			 <arg value="-bundle-path=${build.output}randori-guice.rbl"/>
+			 <arg value="-bundle-libraries=randori-framework"/>
+			 <arg value="-output=${rbl.output}${build.filename}.rbl"/>
+			 <arg value="-bundle-source-path=randori-framework,${basedir_clean}\src"/>
+			 <classpath>
+			   <pathelement location="${randori.compiler.path}randori.jar"/>
+			 </classpath>
+	       </java>
+	</target>
+	
+	<target name="nightly" depends="main">
+		<move file="${rbl.output}${build.filename}.rbl" tofile="${rbl.output}${build.filename}.zip"/>
+	</target>
+
+</project>

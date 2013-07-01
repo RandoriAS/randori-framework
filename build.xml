@@ -19,6 +19,8 @@
 	</pathconvert>
 
 	<property name="build.output" value="D:/randori-sdk-swcs/" />
+	<property name="rbl.output" value="${build.output}" />
+	<property name="build.filename" value="randori-framework" />
 	<property name="randori.compiler.path" value="D:/randori-compiler/" />
 	
 	<target name="main">
@@ -29,12 +31,16 @@
 			 <arg value="-library-path=${build.output}HTMLCoreLib.swc"/>
 			 <arg value="-bundle-path=${build.output}randori-guice.rbl"/>
 			 <arg value="-bundle-libraries=randori-framework"/>
-			 <arg value="-output=${build.output}randori-framework.rbl"/>
+			 <arg value="-output=${rbl.output}${build.filename}.rbl"/>
 			 <arg value="-bundle-source-path=randori-framework,${basedir_clean}\src"/>
 			 <classpath>
 			   <pathelement location="${randori.compiler.path}randori.jar"/>
 			 </classpath>
 	       </java>
+	</target>
+	
+	<target name="nightly" depends="main">
+		<move file="${rbl.output}${build.filename}.rbl" tofile="${rbl.output}${build.filename}.zip"/>
 	</target>
 
 </project>

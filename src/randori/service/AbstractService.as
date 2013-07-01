@@ -17,69 +17,79 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.service {
-	
-	import randori.async.Promise;
-import guice.loader.URLRewriterBase;
-import randori.webkit.dom.DomEvent;
-	import randori.webkit.xml.XMLHttpRequest;
 
-	public class AbstractService {
+import guice.loader.URLRewriterBase;
+
+import randori.async.Promise;
+import randori.service.httpRequest.HttpRequestHeader;
+import randori.webkit.dom.DomEvent;
+import randori.webkit.xml.XMLHttpRequest;
+
+public class AbstractService {
 
         [Inject]
         public var urlRewriter:URLRewriterBase;
 
         protected var xmlHttpRequest:XMLHttpRequest;
 
-        protected function createUri( protocol:String, host:String, port:String, path:String ):String {
-			var uri:String = "";
-			
-			if ( ( protocol != null ) && ( host != null ) ) {
-				uri += ( protocol + "://" + host );    
-			}
-			
-			if ( port != null ) {
-				uri = uri + ":" + port;
-			}
-			
-			uri = uri + "/" + path;
-			return uri;
-		}
-		
-		protected function modifyHeaders( request:XMLHttpRequest ):void {
-			
-		}
+        protected function createUri(protocol:String, host:String, port:String, path:String):String {
+            var uri:String = "";
 
-		protected function sendRequest(verb:String, uri:String):Promise {
-			var promise:Promise = new Promise();
-			var request:XMLHttpRequest = xmlHttpRequest;
+            if (( protocol != null ) && ( host != null )) {
+                uri += ( protocol + "://" + host );
+            }
 
-            uri = urlRewriter.rewriteURL( uri );
-            request.open(verb, uri, true);
-			//xmlHttpRequest.withCredentials = true;
+            if (port != null) {
+                uri = uri + ":" + port;
+            }
+
+            uri = uri + "/" + path;
+            return uri;
+        }
+
+        protected function modifyHeaders( request:XMLHttpRequest ):void {
+
+        }
+
+        private function attachHeaders(request:XMLHttpRequest, httpRequestHeaders:Array):void {
+            httpRequestHeaders.forEach(function (requestHeader:HttpRequestHeader):void {
+                request.setRequestHeader(requestHeader.header, requestHeader.value);
+            });
+        }
+
+        protected function sendRequest(httpRequestMethod:String, uri:String, data:String= "", httpRequestHeaders:Array = null):Promise {
+            var promise:Promise = new Promise();
+            var request:XMLHttpRequest = xmlHttpRequest;
+
+            uri = urlRewriter.rewriteURL(uri);
+
+            request.open(httpRequestMethod, uri, true);
+
+            if(httpRequestHeaders) {
+                attachHeaders(request, httpRequestHeaders);
+            }
+
             request.onreadystatechange = function(evt:DomEvent):void {
+                if (request.readyState == XMLHttpRequest.DONE) {
+                    if (request.status >= 200 && request.status <=299) {
+                        promise.resolve(request.responseText);
+                    } else {
+                        promise.reject(request.statusText);
+                    }
+                }
+            };
 
-				if (request.readyState == XMLHttpRequest.DONE) {
-					if (request.status == 200) {
-						promise.resolve(request.responseText);
-					} else {
-						promise.reject(request.statusText);
-					}
-				}
-			};
-			
-			modifyHeaders(xmlHttpRequest);
-			
-			xmlHttpRequest.send();
-			
-			return promise;
-		}
+            request.send(data);
 
-		protected function sendRequestFull( verb:String, protocol:String, host:String, port:String, path:String ):Promise {
-			return sendRequest( verb, createUri( protocol, host, port, path ) );
-		}
+            return promise;
+        }
 
-		public function AbstractService( xmlHttpRequest:XMLHttpRequest ) {
-			this.xmlHttpRequest = xmlHttpRequest;
-		}
+        protected function sendRequestFull(httpRequestMethod:String, protocol:String, host:String, port:String, path:String, data:String="", httpRequestHeaders:Array = null):Promise {
+            return sendRequest(httpRequestMethod, createUri(protocol, host, port, path), data,  httpRequestHeaders);
+        }
+
+        public function AbstractService(xmlHttpRequest:XMLHttpRequest) {
+            this.xmlHttpRequest = xmlHttpRequest;
+        }
 	}
 }

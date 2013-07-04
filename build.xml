@@ -31,15 +31,17 @@
 			 <arg value="-library-path=${build.output}HTMLCoreLib.swc"/>
 			 <arg value="-bundle-path=${build.output}randori-guice.rbl"/>
 			 <arg value="-bundle-libraries=randori-framework"/>
-			 <arg value="-output=${rbl.output}${build.filename}.rbl"/>
-			 <arg value="-bundle-source-path=randori-framework,${basedir_clean}\src"/>
+			 <arg value="-output=${basedir_clean}/${build.filename}.rbl"/>
+			 <arg value="-bundle-source-path=randori-framework,${basedir_clean}/src"/>
 			 <classpath>
 			   <pathelement location="${randori.compiler.path}randori.jar"/>
 			 </classpath>
 	       </java>
+	       <copy file="${basedir_clean}/${build.filename}.rbl" tofile="${rbl.output}${build.filename}.rbl"/>
 	</target>
 	
 	<target name="nightly" depends="main">
+		<copy file="${rbl.output}${build.filename}.rbl" tofile="${basedir_clean}/${build.filename}.zip"/>
 		<move file="${rbl.output}${build.filename}.rbl" tofile="${rbl.output}${build.filename}.zip"/>
 	</target>
 

@@ -18,7 +18,7 @@
  */
 package randori.startup {
 import guice.GuiceJs;
-import guice.Injector;
+import guice.IInjector;
 import guice.loader.SynchronousClassLoader;
 import guice.loader.URLRewriterBase;
 
@@ -54,7 +54,7 @@ public class RandoriBootstrap {
 
             //Create the injector that will be used in the application
 			var guiceJs:GuiceJs = new GuiceJs( loader );
-			var injector:Injector = guiceJs.createInjector(new RandoriModule( urlRewriter ));
+			var injector:IInjector = guiceJs.createInjector(new RandoriModule( urlRewriter ));
 			
 			var domWalker:DomWalker = injector.getInstance(DomWalker) as DomWalker;
 			domWalker.walkDomFragment(rootNode);

@@ -22,19 +22,19 @@
  * 
  */
 package randori.startup {
-	import guice.GuiceModule;
-	import guice.binding.Binder;
-	import guice.binding.Scope;
-	
-	import randori.i18n.AbstractTranslator;
-	import randori.i18n.NoOpTranslator;
-    import guice.loader.URLRewriterBase;
-    import randori.styles.StyleExtensionMap;
+import guice.IGuiceModule;
+import guice.binding.IBinder;
+import guice.binding.Scope;
+import guice.loader.URLRewriterBase;
 
-	public class RandoriModule extends GuiceModule {
+import randori.i18n.AbstractTranslator;
+import randori.i18n.NoOpTranslator;
+import randori.styles.StyleExtensionMap;
+
+public class RandoriModule implements IGuiceModule {
         private var urlRewriter:URLRewriterBase;
 		
-		override public function configure(binder:Binder):void {
+		public function configure(binder:IBinder):void {
 			//make the StyleExtensionMap a Singleton
 			binder.bind(StyleExtensionMap).inScope(Scope.Singleton).to(StyleExtensionMap);
 			

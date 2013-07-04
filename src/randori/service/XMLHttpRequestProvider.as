@@ -18,15 +18,13 @@
  */
 package randori.service {
 
-import guice.binding.provider.AbstractProvider;
+import guice.binding.provider.IProvider;
 
-import randori.async.Promise;
-	import randori.webkit.dom.DomEvent;
-	import randori.webkit.xml.XMLHttpRequest;
+import randori.webkit.xml.XMLHttpRequest;
 
-	public class XMLHttpRequestProvider extends AbstractProvider{
+public class XMLHttpRequestProvider implements IProvider{
 
-		override public function get():* {
+		public function get():* {
 			return new XMLHttpRequest();
 		}
 		

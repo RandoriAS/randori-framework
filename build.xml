@@ -22,6 +22,7 @@
 	<property name="rbl.output" value="${build.output}" />
 	<property name="build.filename" value="randori-framework" />
 	<property name="randori.compiler.path" value="D:/randori-compiler/" />
+	<property name="sdk.path" value="D:/randori-sdk/" />
 	
 	<target name="main">
 		<java classname="randori.compiler.clients.Randori"
@@ -43,6 +44,7 @@
 	<target name="nightly" depends="main">
 		<copy file="${rbl.output}${build.filename}.rbl" tofile="${basedir_clean}/${build.filename}.zip"/>
 		<move file="${rbl.output}${build.filename}.rbl" tofile="${rbl.output}${build.filename}.zip"/>
+		<unzip src="${rbl.output}${build.filename}.zip" dest="${sdk.path}"/>
 	</target>
 
 </project>

@@ -17,10 +17,10 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.timer {
-	import randori.signal.SimpleSignal;
-	import randori.webkit.page.Window;
+import randori.signal.SimpleSignal;
+import randori.webkit.page.Window;
 
-	public class Timer {
+public class Timer {
 		public var timerTick:SimpleSignal;
 		public var timerComplete:SimpleSignal;
 		

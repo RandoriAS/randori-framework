@@ -26,6 +26,7 @@ import guice.reflection.TypeDefinitionFactory;
 
 import randori.dom.DomWalker;
 import randori.service.url.URLCacheBuster;
+import randori.utilities.PolyFill;
 import randori.webkit.dom.Node;
 import randori.webkit.xml.XMLHttpRequest;
 
@@ -36,7 +37,7 @@ public class RandoriBootstrap {
 
             //We are going to do a few convenience things here
             //first, build a default console object for IE
-            //PolyFill.fillConsoleForIE();
+            PolyFill.fillConsoleForIE();
 
             /**This part is due for a refactor coming by .2.5**/
             var urlRewriter:URLRewriterBase;

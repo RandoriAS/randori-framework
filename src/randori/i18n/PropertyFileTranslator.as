@@ -19,12 +19,13 @@
 package randori.i18n {
 
 import guice.loader.URLRewriterBase;
-import randori.signal.SimpleSignal;
-	import randori.webkit.dom.DomEvent;
-	import randori.webkit.page.Window;
-	import randori.webkit.xml.XMLHttpRequest;
 
-	public class PropertyFileTranslator extends AbstractTranslator {
+import randori.signal.SimpleSignal;
+import randori.webkit.dom.DomEvent;
+import randori.webkit.page.Window;
+import randori.webkit.xml.XMLHttpRequest;
+
+public class PropertyFileTranslator extends AbstractTranslator {
 		
 		private var url:String;
 		
@@ -47,13 +48,13 @@ import randori.signal.SimpleSignal;
 					//The data is back, translate
 					var translations:Vector.<Translation> = provideTranslations(domain, keys);
 					
-					translationResult.dispatch(domain, translations); 
+					translationResult.dispatchArgs(domain, translations);
 				} );
 			} else {
 				//We already have the file, so just translate
 				var translations:Vector.<Translation> = provideTranslations(domain, keys);
 				
-				translationResult.dispatch(domain, translations);
+				translationResult.dispatchArgs(domain, translations);
 			}			
 		}
 		

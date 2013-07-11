@@ -17,10 +17,10 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.timer {
-	import randori.signal.SimpleSignal;
-	import randori.webkit.page.Window;
+import randori.signal.SimpleSignal;
+import randori.webkit.page.Window;
 
-	public class Timer {
+public class Timer {
 		public var timerTick:SimpleSignal;
 		public var timerComplete:SimpleSignal;
 		
@@ -45,10 +45,10 @@ package randori.timer {
 		protected function onTimerTick():void {
 			_currentCount++;
 			
-			timerTick.dispatch(this, _currentCount);
+			timerTick.dispatchArgs(this, _currentCount);
 			
 			if (_currentCount == _repeatCount) {
-				timerComplete.dispatch( this );
+				timerComplete.dispatchArgs( this );
 			}
 			
 			stop();

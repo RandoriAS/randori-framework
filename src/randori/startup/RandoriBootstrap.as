@@ -21,6 +21,8 @@ import guice.GuiceJs;
 import guice.IInjector;
 import guice.loader.SynchronousClassLoader;
 import guice.loader.URLRewriterBase;
+import guice.reflection.TypeDefinition;
+import guice.reflection.TypeDefinitionFactory;
 
 import randori.dom.DomWalker;
 import randori.service.url.URLCacheBuster;
@@ -54,8 +56,19 @@ public class RandoriBootstrap {
 
             //Create the injector that will be used in the application
 			var guiceJs:GuiceJs = new GuiceJs( loader );
+
+			var factory:TypeDefinitionFactory = new TypeDefinitionFactory();
+			var td:TypeDefinition = factory.getDefinitionForType( RandoriModule );
+			var classDependencies:Vector.<String> = td.getRuntimeDependencies();
+
+			for ( var i:int=0; i<classDependencies.length; i++) {
+				//this will either find the definition or force a proxy to be created for each
+				factory.getDefinitionForName( classDependencies[i] );
+			}
+
+			var module:* = new RandoriModule( urlRewriter );
 			var injector:IInjector = guiceJs.createInjector(new RandoriModule( urlRewriter ));
-			
+
 			var domWalker:DomWalker = injector.getInstance(DomWalker) as DomWalker;
 			domWalker.walkDomFragment(rootNode);
 		}

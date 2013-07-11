@@ -86,7 +86,7 @@ package randori.signal {
 			return false;
 		}
 		
-		public function dispatch( ...args ):void {
+		public function dispatchArgs( ...args ):void {
 			var listener:Function
 			
 			while ( once.length > 0 ) {

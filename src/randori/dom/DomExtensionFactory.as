@@ -17,9 +17,9 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.dom {
-import guice.ChildInjector;
 import guice.GuiceJs;
 import guice.IGuiceModule;
+import guice.IInjector;
 import guice.InjectionClassBuilder;
 import guice.reflection.TypeDefinition;
 import guice.resolver.CircularDependencyMap;
@@ -59,7 +59,7 @@ public class DomExtensionFactory {
 
 	public function buildChildClassBuilder(classBuilder:InjectionClassBuilder, element:HTMLElement, contextClassName:String):InjectionClassBuilder {
 		var module:IGuiceModule = classBuilder.buildContext(contextClassName);
-		var injector:ChildInjector = classBuilder.buildClass("guice.ChildInjector") as ChildInjector;
+		var injector:IInjector = classBuilder.buildClass("guice.IInjector") as IInjector;
 
 		//This is a problem, refactor me
 		var guiceJs:GuiceJs = new GuiceJs( null );

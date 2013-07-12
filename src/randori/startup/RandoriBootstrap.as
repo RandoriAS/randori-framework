@@ -31,51 +31,52 @@ import randori.webkit.dom.Node;
 import randori.webkit.xml.XMLHttpRequest;
 
 public class RandoriBootstrap {
-		private var rootNode:Node;
-		
-		public function launch( debugMode:Boolean=false, dynamicClassBaseUrl:String = "generated/" ):void {
+	private var rootNode:Node;
 
-            //We are going to do a few convenience things here
-            //first, build a default console object for IE
-            PolyFill.fillConsoleForIE();
+	public function launch( debugMode:Boolean=false, dynamicClassBaseUrl:String = "generated/" ):void {
 
-            /**This part is due for a refactor coming by .2.5**/
-            var urlRewriter:URLRewriterBase;
+		//We are going to do a few convenience things here
+		//first, build a default console object for IE
+		PolyFill.fillConsoleForIE();
+		PolyFill.fillIndexOf();
 
-            if ( debugMode ) {
-                urlRewriter = new URLCacheBuster();
-            } else {
-                urlRewriter = new URLRewriterBase();
-            }
+		/**This part is due for a refactor coming by .2.5**/
+		var urlRewriter:URLRewriterBase;
 
-			if ( dynamicClassBaseUrl == null ) {
-				dynamicClassBaseUrl = "generated/";
-			}
-
-            var loader:SynchronousClassLoader =
-                    new SynchronousClassLoader(new XMLHttpRequest(), urlRewriter, dynamicClassBaseUrl );
-
-            //Create the injector that will be used in the application
-			var guiceJs:GuiceJs = new GuiceJs( loader );
-
-			var factory:TypeDefinitionFactory = new TypeDefinitionFactory();
-			var td:TypeDefinition = factory.getDefinitionForType( RandoriModule );
-			var classDependencies:Vector.<String> = td.getRuntimeDependencies();
-
-			for ( var i:int=0; i<classDependencies.length; i++) {
-				//this will either find the definition or force a proxy to be created for each
-				factory.getDefinitionForName( classDependencies[i] );
-			}
-
-			var module:* = new RandoriModule( urlRewriter );
-			var injector:IInjector = guiceJs.createInjector(new RandoriModule( urlRewriter ));
-
-			var domWalker:DomWalker = injector.getInstance(DomWalker) as DomWalker;
-			domWalker.walkDomFragment(rootNode);
+		if ( debugMode ) {
+			urlRewriter = new URLCacheBuster();
+		} else {
+			urlRewriter = new URLRewriterBase();
 		}
 
-		public function RandoriBootstrap( rootNode:Node ) {
-			this.rootNode = rootNode;
+		if ( dynamicClassBaseUrl == null ) {
+			dynamicClassBaseUrl = "generated/";
 		}
+
+		var loader:SynchronousClassLoader =
+				new SynchronousClassLoader(new XMLHttpRequest(), urlRewriter, dynamicClassBaseUrl );
+
+		//Create the injector that will be used in the application
+		var guiceJs:GuiceJs = new GuiceJs( loader );
+
+		var factory:TypeDefinitionFactory = new TypeDefinitionFactory();
+		var td:TypeDefinition = factory.getDefinitionForType( RandoriModule );
+		var classDependencies:Vector.<String> = td.getRuntimeDependencies();
+
+		for ( var i:int=0; i<classDependencies.length; i++) {
+			//this will either find the definition or force a proxy to be created for each
+			factory.getDefinitionForName( classDependencies[i] );
+		}
+
+		var module:* = new RandoriModule( urlRewriter );
+		var injector:IInjector = guiceJs.createInjector(new RandoriModule( urlRewriter ));
+
+		var domWalker:DomWalker = injector.getInstance(DomWalker) as DomWalker;
+		domWalker.walkDomFragment(rootNode);
 	}
+
+	public function RandoriBootstrap( rootNode:Node ) {
+		this.rootNode = rootNode;
+	}
+}
 }

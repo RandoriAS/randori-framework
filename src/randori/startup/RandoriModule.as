@@ -31,8 +31,8 @@ import randori.i18n.AbstractTranslator;
 import randori.i18n.NoOpTranslator;
 import randori.styles.StyleExtensionMap;
 
-import robotlegs.flexo.CommandMap;
-import robotlegs.flexo.ICommandMap;
+import robotlegs.flexo.command.CommandMap;
+import robotlegs.flexo.command.ICommandMap;
 
 public class RandoriModule implements IGuiceModule {
         private var urlRewriter:URLRewriterBase;

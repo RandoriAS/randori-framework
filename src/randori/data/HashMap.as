@@ -18,68 +18,100 @@
  */
 package randori.data {
 
-	public class HashMap {
-		private var entries:Object;
+public class HashMap {
+	private var entries:Object;
 
-		private function getEntry(key:Object):Entry {
-			var keyAsString:String = key as String;
-			var entry:* = entries[keyAsString];
-			var returnEntry:Entry = null;
-			
-			if (entry != undefined) {
-				if (entry is Array) {
-					for ( var i:int = 0; i < entry.length; i++ ) {
-						if ( entry[ i ].key == key ) {
-							returnEntry = entry[i];
-							break;
-						}
+	private function getEntry(key:Object):Entry {
+		var keyAsString:String = key as String;
+		var entry:* = entries[keyAsString];
+		var returnEntry:Entry = null;
+
+		if (entry != undefined) {
+			if (entry is Array) {
+				for ( var i:int = 0; i < entry.length; i++ ) {
+					if ( entry[ i ].key == key ) {
+						returnEntry = entry[i];
+						break;
 					}
-				} else if (entry.key == key) {
-					returnEntry = entry;
-				} 
-			}
-			
-			return returnEntry;
-		}
-		
-		public function get(key:Object):* {
-			var entry:Entry = getEntry( key );
-			
-			return entry != null ? entry.value : null;
-		}
-		
-		public function put( key:Object, value:* ):void {
-			var keyAsString:String = key as String;
-			var entryLocation:* = entries[keyAsString];
-			
-			if (entryLocation == null ) {
-				//Doesnt exist, add it
-				entries[keyAsString] = new Entry( key, value);
-			} else {
-				//there is already an entry location.... so
-				var entry:* = getEntry(key);
-				
-				//Do we have a matching entry.. if so, update the value
-				if (entry != undefined ) {
-					entry.value = value;
-				} else if ( entryLocation is Array ) {
-					//Add this one to the location
-					entryLocation.push( new Entry(key, value) );
-				} else {
-					//Convert this location to an array
-					var ar:Array = new Array();
-					ar[0] = entryLocation;
-					ar[1] = new Entry( key, value );
-					entries[keyAsString] = ar;
 				}
+			} else if (entry.key == key) {
+				returnEntry = entry;
 			}
 		}
-		
-		
-		public function HashMap() {
-			this.entries = new Object();
+
+		return returnEntry;
+	}
+
+	public function has(key:Object):Boolean {
+		var entry:Entry = getEntry( key );
+
+		return entry != null;
+	}
+
+	public function get(key:Object):* {
+		var entry:Entry = getEntry( key );
+
+		return entry != null ? entry.value : null;
+	}
+
+	public function remove(key:Object):* {
+		var keyAsString:String = key as String;
+		var entry:* = entries[keyAsString];
+		var returnEntry:Entry = null;
+
+		if (entry != undefined) {
+			if (entry is Array) {
+				for ( var i:int = 0; i < entry.length; i++ ) {
+					if ( entry[ i ].key == key ) {
+						returnEntry = entry[i];
+						break;
+					}
+				}
+			} else if (entry.key == key) {
+				returnEntry = entry;
+			}
+		}
+
+		return returnEntry;
+
+		return entry != null ? entry.value : null;
+	}
+
+	public function removeAll():void {
+
+	}
+
+	public function put( key:Object, value:* ):void {
+		var keyAsString:String = key as String;
+		var entryLocation:* = entries[keyAsString];
+
+		if (entryLocation == null ) {
+			//Doesnt exist, add it
+			entries[keyAsString] = new Entry( key, value);
+		} else {
+			//there is already an entry location.... so
+			var entry:* = getEntry(key);
+
+			//Do we have a matching entry.. if so, update the value
+			if (entry != undefined ) {
+				entry.value = value;
+			} else if ( entryLocation is Array ) {
+				//Add this one to the location
+				entryLocation.push( new Entry(key, value) );
+			} else {
+				//Convert this location to an array
+				var ar:Array = new Array();
+				ar[0] = entryLocation;
+				ar[1] = new Entry( key, value );
+				entries[keyAsString] = ar;
+			}
 		}
 	}
+
+	public function HashMap() {
+		this.entries = new Object();
+	}
+}
 }
 
 [JavaScript(export="false",name="Object",mode="json")]

@@ -8,13 +8,13 @@ import randori.webkit.page.Window;
  * Time: 2:04 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DummyCommand {
+public class DummyCommand2 {
 
-	public function execute( val1:String, val2:String ):void {
-		Window.alert("Yo Ho ho " + val1 + val2 )
+	public function execute( val1:int, val2:String ):void {
+		Window.alert("Roland " + val1 + val2 )
 	}
 
-	public function DummyCommand() {
+	public function DummyCommand2() {
 	}
 }
 }

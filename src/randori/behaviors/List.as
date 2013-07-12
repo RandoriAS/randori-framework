@@ -58,7 +58,7 @@ public class List extends SimpleList {
 				if (value > -1 && value < decoratedNode.children().length) {
 					decoratedNode.children().eq(value).addClass("selected");
 	
-					listChanged.dispatchArgs(value, data[value]);
+					listChanged.dispatch(value, data[value]);
 				}
 			}
 		}

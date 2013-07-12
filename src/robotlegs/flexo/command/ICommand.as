@@ -16,34 +16,7 @@
  *
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
-package robotlegs.flexo {
-import guice.IGuiceModule;
-import guice.binding.IBinder;
-
-import randori.jquery.JQuery;
-
-public class Context implements IGuiceModule {
-
-	protected var binder:IBinder;
-
-	[Inject]
-	public var command:ICommandMap;
-
-	protected var contextView:JQuery;
-
-	public function configure( binder:IBinder ):void {
-		this.binder = binder;
-		startup();
-	}
-
-	public function startup():void {
-	}
-
-	public function shutdown():void {
-
-	}
-
-	public function Context() {
-	}
+package robotlegs.flexo.command {
+public interface ICommand {
 }
 }

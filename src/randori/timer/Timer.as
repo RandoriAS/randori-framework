@@ -45,10 +45,10 @@ public class Timer {
 		protected function onTimerTick():void {
 			_currentCount++;
 			
-			timerTick.dispatchArgs(this, _currentCount);
+			timerTick.dispatch(this, _currentCount);
 			
 			if (_currentCount == _repeatCount) {
-				timerComplete.dispatchArgs( this );
+				timerComplete.dispatch( this );
 			}
 			
 			stop();

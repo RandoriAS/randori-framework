@@ -17,32 +17,32 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.behaviors.viewStack {
-	import randori.behaviors.AbstractBehavior;
-	import randori.behaviors.AbstractMediator;
-	
-	public class MediatorCapturer extends AbstractBehavior {
-		
-		private var _mediator:AbstractMediator;
-		
-		public function get mediator():AbstractMediator {
-			return _mediator;
-		}
-		
-		override protected function onDeregister():void {
-			_mediator = null;
-		}
-		
-		override public function injectPotentialNode(id:String, node:Object ):void {
-			//Ugly hack for the moment, figure out a better way to handle by checking the identity... somehow... of this class
-			var behavior:* = node;
-			if (_mediator == null && behavior.setViewData != null) {
-				_mediator = behavior;
-			}
-		}
+import randori.behaviors.AbstractBehavior;
+import randori.behaviors.AbstractMediator;
 
+public class MediatorCapturer extends AbstractBehavior {
+		
+	private var _mediator:AbstractMediator;
 
-		public function MediatorCapturer() {
-			super();
+	public function get mediator():AbstractMediator {
+		return _mediator;
+	}
+
+	override public function destroy():void {
+		_mediator = null;
+	}
+
+	override public function injectPotentialNode(id:String, node:Object ):void {
+		//Ugly hack for the moment, figure out a better way to handle by checking the identity... somehow... of this class
+		var behavior:* = node;
+		if (_mediator == null && behavior.setViewData != null) {
+			_mediator = behavior;
 		}
 	}
+
+
+	public function MediatorCapturer() {
+		super();
+	}
+}
 }

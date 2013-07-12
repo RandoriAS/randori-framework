@@ -183,14 +183,14 @@ public class ViewStack extends AbstractBehavior {
 		return null;
 	}
 
-	override protected function onRegister():void {
+	override public function initialize():void {
 		mediators = new Object();
 
 		//We may eventually want to look for existing elements and hold onto them... not today
 		decoratedNode.empty();
 	}
 
-	override protected function onDeregister():void  {
+	override public function destroy():void  {
 		mediators = new Object();
 
 		decoratedNode.empty();

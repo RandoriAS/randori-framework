@@ -18,7 +18,7 @@
  */
 package robotlegs.flexo.command {
 public interface ICommandMap {
-	function map( signalInterface:Class ):ICommandEntry;
+	function signal( signalInterface:Class ):ICommandEntry;
 	function has( signalInterface:Class ):Boolean;
 	function unmap( signalInterface:Class ):void;
 	function unmapAll():void;

@@ -19,6 +19,9 @@
 package robotlegs.flexo.config {
 import guice.IGuiceModule;
 
-public interface IContextConfig extends IGuiceModule {
+import robotlegs.flexo.command.ICommandMap;
+
+public interface IConfig extends IGuiceModule {
+	function configureCommands( map:ICommandMap ):void;
 }
 }

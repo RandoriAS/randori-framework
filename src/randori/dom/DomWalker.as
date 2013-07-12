@@ -36,7 +36,7 @@ public class DomWalker {
 		private var localizationProvider:LocalizationProvider;
 
 		private var extensionsToBeApplied:HashMap;
-		//An entry element is the first real element we foind in this particular DomWalker instance
+		//An entry element is the first real element we found in this particular DomWalker instance
 		private var entryElement:HTMLElement;
 
 		private function investigateLinkElement(element:HTMLLinkElement):void {

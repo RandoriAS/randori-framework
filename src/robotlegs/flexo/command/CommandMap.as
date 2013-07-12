@@ -29,7 +29,7 @@ public class CommandMap implements ICommandMap {
 	private var bound:Array;
 	private var detained:Array;
 
-	public function map( signalInterface:Class ):ICommandEntry {
+	public function signal( signalInterface:Class ):ICommandEntry {
 		return new CommandEntry( this, signalInterface, injector );
 	}
 

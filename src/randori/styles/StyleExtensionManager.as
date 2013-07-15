@@ -17,19 +17,18 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.styles {
-	import randori.data.HashMap;
+import guice.loader.URLRewriterBase;
+
+import randori.data.HashMap;
 import randori.jquery.JQuery;
 import randori.jquery.JQueryStatic;
 import randori.service.XMLHttpRequestProvider;
-import guice.loader.URLRewriterBase;
-import randori.webkit.dom.NodeList;
-	import randori.webkit.html.HTMLElement;
-	import randori.webkit.html.HTMLLinkElement;
-import randori.webkit.page.Console;
+import randori.webkit.html.HTMLElement;
+import randori.webkit.html.HTMLLinkElement;
 import randori.webkit.page.Window;
-	import randori.webkit.xml.XMLHttpRequest;
+import randori.webkit.xml.XMLHttpRequest;
 
-	public class StyleExtensionManager {
+public class StyleExtensionManager {
 		
 		private var map:StyleExtensionMap;
         private var serviceFactory:XMLHttpRequestProvider;
@@ -194,7 +193,7 @@ import randori.webkit.page.Window;
 			var randoriVendorItemStr:String;
 
             var sheetMinusComments:String = sheet.replace( commentsSelector, "\n" );
-			var selectors:Array = sheetMinusComments.match(allClassSelectors);
+			var selectors:Array = sheetMinusComments.match( allClassSelectors );
 
 			if (selectors != null ) {
 				for (var i:int = 0; i < selectors.length; i++) {

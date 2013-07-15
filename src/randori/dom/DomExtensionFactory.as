@@ -17,62 +17,72 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.dom {
-import guice.ChildInjector;
 import guice.GuiceJs;
 import guice.IGuiceModule;
+import guice.IInjector;
 import guice.InjectionClassBuilder;
 import guice.reflection.TypeDefinition;
-import guice.resolver.CircularDependencyMap;
-import guice.resolver.ClassResolver;
+import guice.reflection.TypeDefinitionFactory;
 
 import randori.behaviors.AbstractBehavior;
 import randori.content.ContentLoader;
 import randori.jquery.JQueryStatic;
 import randori.webkit.html.HTMLElement;
 
+import robotlegs.flexo.command.ICommandMap;
+import robotlegs.flexo.config.IConfig;
+
 public class DomExtensionFactory {
 	private var contentLoader:ContentLoader;
-	private var classResolver:ClassResolver;
+	private var factory:TypeDefinitionFactory;
 	private var externalBehaviorFactory:ExternalBehaviorFactory;
 
-	public function buildBehavior(classBuilder:InjectionClassBuilder, element:HTMLElement, behaviorClassName:String):AbstractBehavior {
+	public function buildBehavior( classBuilder:InjectionClassBuilder, element:HTMLElement, behaviorClassName:String):AbstractBehavior {
 		var behavior:AbstractBehavior = null;
 
-		var resolution:TypeDefinition = classResolver.resolveClassName(behaviorClassName, new CircularDependencyMap());
+		var resolution:TypeDefinition = factory.getDefinitionForName( behaviorClassName );
 
-		if (resolution.builtIn) {
+		if ( resolution.builtIn ) {
 			/** If we have a type which was not created via Randori, we send it out to get created. In this way
 			 * we dont worry about injection data and we allow for any crazy creation mechanism the client can
 			 * consider **/
-			behavior = externalBehaviorFactory.createExternalBehavior(element, behaviorClassName, resolution.type);
+			behavior = externalBehaviorFactory.createExternalBehavior( element, behaviorClassName, resolution.type );
 		} else {
-			behavior = classBuilder.buildClass(behaviorClassName) as AbstractBehavior;
-			behavior.provideDecoratedElement(element);
+			behavior = classBuilder.buildClass( behaviorClassName ) as AbstractBehavior;
+			behavior.provideDecoratedElement( element );
 		}
 
 		return behavior;
 	}
 
-	public function buildNewContent(element:HTMLElement, fragmentURL:String):void {
-		JQueryStatic.J(element).append(contentLoader.synchronousFragmentLoad(fragmentURL));
+	public function buildNewContent( element:HTMLElement, fragmentURL:String ):void {
+		JQueryStatic.J( element ).append( contentLoader.synchronousFragmentLoad( fragmentURL ) );
 	}
 
-	public function buildChildClassBuilder(classBuilder:InjectionClassBuilder, element:HTMLElement, contextClassName:String):InjectionClassBuilder {
-		var module:IGuiceModule = classBuilder.buildContext(contextClassName);
-		var injector:ChildInjector = classBuilder.buildClass("guice.ChildInjector") as ChildInjector;
+	public function buildChildClassBuilder( classBuilder:InjectionClassBuilder, element:HTMLElement, contextClassName:String ):InjectionClassBuilder {
+		var module:IGuiceModule = classBuilder.buildContext( contextClassName ) as IGuiceModule;
+		var injector:IInjector = classBuilder.buildClass( "guice.IInjector" ) as IInjector;
 
 		//This is a problem, refactor me
 		var guiceJs:GuiceJs = new GuiceJs( null );
-		guiceJs.configureInjector(injector, module);
+		guiceJs.configureInjector( injector, module );
+
+		var config:IConfig = module as IConfig;
+
+		if ( config.configureCommands ) {
+			//Get a new command map
+			var map:ICommandMap = injector.getInstance( ICommandMap ) as ICommandMap;
+			config.configureCommands( map );
+		}
 
 		//Setup a new InjectionClassBuilder
-		return injector.getInstance(InjectionClassBuilder) as InjectionClassBuilder;
+		return injector.getInstance( InjectionClassBuilder ) as InjectionClassBuilder;
 	}
 
 
-	public function DomExtensionFactory(contentLoader:ContentLoader, classResolver:ClassResolver, externalBehaviorFactory:ExternalBehaviorFactory) {
+	public function DomExtensionFactory( contentLoader:ContentLoader, factory:TypeDefinitionFactory, externalBehaviorFactory:ExternalBehaviorFactory ) {
 		this.contentLoader = contentLoader;
-		this.classResolver = classResolver;
+		this.factory = factory;
 		this.externalBehaviorFactory = externalBehaviorFactory;
 	}
 }

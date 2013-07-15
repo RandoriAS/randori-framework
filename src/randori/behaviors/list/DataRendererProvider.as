@@ -17,28 +17,28 @@
  * @author Michael Labriola <labriola@digitalprimates.net>
  */
 package randori.behaviors.list {
-	import randori.behaviors.AbstractBehavior;
-	
-	public class DataRendererProvider extends AbstractBehavior {
+import randori.behaviors.AbstractBehavior;
 
-		private var data:Object;
+public class DataRendererProvider extends AbstractBehavior {
 
-		override protected function onDeregister():void {
-			this.data = null;
-		}
-		
-		override public function injectPotentialNode(id:String, node:Object):void {
-			//Ugly hack for the moment, figure out a better way to handle by checking the identity... somehow... of this class
-			var behavior:* = node;
-			if (behavior.setData != null) {
-				behavior.setData(data);
-			}
-		}
+	private var data:Object;
 
-		public function DataRendererProvider( data:Object ) {
-			this.data = data;
+	override public function destroy():void {
+		this.data = null;
+	}
 
-			super();
+	override public function injectPotentialNode(id:String, node:Object):void {
+		//Ugly hack for the moment, figure out a better way to handle by checking the identity... somehow... of this class
+		var behavior:* = node;
+		if (behavior.setData != null) {
+			behavior.setData(data);
 		}
 	}
+
+	public function DataRendererProvider( data:Object ) {
+		this.data = data;
+
+		super();
+	}
+}
 }

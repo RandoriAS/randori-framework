@@ -47,7 +47,6 @@ public class RandoriModule implements IGuiceModule {
             binder.bind( URLRewriterBase).toInstance( urlRewriter );
 
 			binder.bind( ICommandMap ).to( CommandMap );
-
 		}
 
 		public function RandoriModule( urlRewriter:URLRewriterBase ) {

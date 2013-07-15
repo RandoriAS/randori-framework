@@ -22,7 +22,7 @@
  * 
  */
 package randori.signal {
-	public class SimpleSignal {
+	public class SimpleSignal implements ISignal {
 		private var permanent:Array;
 		private var once:Array;
 
@@ -46,18 +46,18 @@ package randori.signal {
 			
 			return -1;
 		}
-		
-		public function add( listener:Function ):void {
+
+		public function add(listener:Function):void {
 			permanent.push(listener);
 		}
-		
-		public function addOnce( listener:Function ):void {
+
+		public function addOnce(listener:Function):void {
 			once.push(listener);
 		}
-		
-		public function remove( listener:Function ):void {
+
+		public function remove(listener:Function):void {
 			var index:int;
-			
+
 			index = findIndex(listener, once);
 
 			if (index != -1) {
@@ -69,23 +69,23 @@ package randori.signal {
 				}
 			}
 		}
-		
-		public function has( listener:Function ):Boolean {
+
+		public function has(listener:Function):Boolean {
 			var index:int;
-			
+
 			index = findIndex(listener, once);
 			if (index != -1) {
 				return true;
 			}
-			
+
 			index = findIndex(listener, permanent);
 			if (index != -1) {
 				return true;
 			}
-			
+
 			return false;
 		}
-		
+
 		public function dispatch( ...args ):void {
 			var listener:Function
 			

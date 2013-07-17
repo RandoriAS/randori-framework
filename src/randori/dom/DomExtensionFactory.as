@@ -27,10 +27,13 @@ import guice.reflection.TypeDefinitionFactory;
 import randori.behaviors.AbstractBehavior;
 import randori.content.ContentLoader;
 import randori.jquery.JQueryStatic;
+import randori.signal.SimpleSignal;
 import randori.webkit.html.HTMLElement;
 
 import robotlegs.flexo.command.ICommandMap;
 import robotlegs.flexo.config.IConfig;
+import robotlegs.flexo.context.DefaultContextModule;
+import robotlegs.flexo.context.IContextInitialized;
 
 public class DomExtensionFactory {
 	private var contentLoader:ContentLoader;
@@ -65,6 +68,8 @@ public class DomExtensionFactory {
 
 		//This is a problem, refactor me
 		var guiceJs:GuiceJs = new GuiceJs( null );
+		//Sets up the context to have the initialized and destoryed signals
+		guiceJs.configureInjector( injector, new DefaultContextModule() );
 		guiceJs.configureInjector( injector, module );
 
 		var config:IConfig = module as IConfig;
@@ -74,6 +79,10 @@ public class DomExtensionFactory {
 			var map:ICommandMap = injector.getInstance( ICommandMap ) as ICommandMap;
 			config.configureCommands( map );
 		}
+
+		//Let everyone know the context is initialized
+		var signal:SimpleSignal = injector.getInstance( IContextInitialized );
+		signal.dispatch();
 
 		//Setup a new InjectionClassBuilder
 		return injector.getInstance( InjectionClassBuilder ) as InjectionClassBuilder;

@@ -25,7 +25,5 @@ public interface ICommandMap {
 
 	function detain( command:ICommand ):void;
 	function release( command:ICommand ):void;
-
-	function setupMapping( entry:ICommandEntry ):void;
 }
 }

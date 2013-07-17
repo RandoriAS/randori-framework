@@ -20,7 +20,6 @@ package robotlegs.flexo.command {
 import guice.binding.provider.IProvider;
 
 public interface ICommandEntry extends IProvider {
-	function get signalInterface():Class;
 	function to( commandClass:Class ):void;
 }
 }
